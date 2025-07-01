@@ -1,0 +1,23 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+*.pyd
+.env
+.DS_Store
+
+# VSCode
+.vscode/
+
+# local database / docker leftovers
+postgres_data/
+*.sqlite3
+
+# coverage / test output
+.coverage
+htmlcov/
+
+# OS junk
+Thumbs.db
