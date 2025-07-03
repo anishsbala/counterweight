@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    container_name: counterweight-db
+    environment:
+      POSTGRES_DB: counterweight
+      POSTGRES_USER: counterweight
+      POSTGRES_PASSWORD: counterweight
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    build: .
+    container_name: counterweight-api
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://counterweight:counterweight@db:5432/counterweight
+      AUTO_INIT_DB: "1"
+      SEED_SOURCE_BANK: "1"
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
