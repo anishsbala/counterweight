@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Counterweight</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero panel">
+        <div>
+          <p class="eyebrow">Counterweight</p>
+          <h1>Curated-source claim verification</h1>
+          <p class="subtext">
+            Paste an article, extract checkable claims, rank evidence from a curated source bank,
+            and store the full verification run in PostgreSQL.
+          </p>
+          <div class="hero-links">
+            <a class="docs-link" href="/docs" target="_blank" rel="noreferrer">Open API docs</a>
+            <a class="docs-link secondary-link" href="/sources" target="_blank" rel="noreferrer">View sources</a>
+          </div>
+        </div>
+        <div class="hero-stats" id="hero-stats">
+          <div>
+            <span class="label">Articles</span>
+            <strong id="stat-articles">-</strong>
+          </div>
+          <div>
+            <span class="label">Claims</span>
+            <strong id="stat-claims">-</strong>
+          </div>
+          <div>
+            <span class="label">Sources</span>
+            <strong id="stat-sources">-</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid two-up">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Run verification</h2>
+            <div class="sample-row">
+              <button class="tiny-button" data-sample="energy">Energy</button>
+              <button class="tiny-button" data-sample="health">Health</button>
+              <button class="tiny-button" data-sample="labor">Labor</button>
+              <button class="tiny-button" data-sample="tech">Tech</button>
+              <button class="tiny-button" data-sample="climate">Climate</button>
+            </div>
+          </div>
+
+          <label for="title">Title</label>
+          <input id="title" value="Renewable Energy Update" />
+
+          <label for="source-url">Source URL</label>
+          <input id="source-url" placeholder="Optional" />
+
+          <label for="article-text">Article text</label>
+          <textarea id="article-text">Solar power accounted for the majority of new electricity generation capacity added globally in recent years. Researchers also note that battery storage costs have declined over time, making grid-scale storage more practical. Some reports claim solar is now the cheapest source of electricity in history in many regions.</textarea>
+
+          <div class="button-row">
+            <button id="run-button">Run verification</button>
+            <button id="clear-button" class="secondary">Clear result</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Recent runs</h2>
+            <button id="refresh-history" class="tiny-button">Refresh</button>
+          </div>
+          <div id="history-list" class="history-list">
+            <p class="muted">No runs loaded yet.</p>
+          </div>
+        </section>
+      </section>
+
+      <section class="panel hidden" id="summary-panel">
+        <div class="panel-header">
+          <h2>Run summary</h2>
+          <a id="export-link" class="docs-link hidden" href="#" target="_blank" rel="noreferrer">Export JSON</a>
+        </div>
+        <div class="summary-grid">
+          <div>
+            <span class="label">Article ID</span>
+            <strong id="article-id">-</strong>
+          </div>
+          <div>
+            <span class="label">Elapsed</span>
+            <strong id="elapsed-ms">-</strong>
+          </div>
+          <div>
+            <span class="label">Claims</span>
+            <strong id="claim-count">-</strong>
+          </div>
+          <div>
+            <span class="label">Domain</span>
+            <strong id="article-domain">-</strong>
+          </div>
+          <div>
+            <span class="label">Overall verdict</span>
+            <strong id="overall-verdict">-</strong>
+          </div>
+          <div>
+            <span class="label">Likely / Mixed / Weak / Insufficient</span>
+            <strong id="verdict-counts">-</strong>
+          </div>
+        </div>
+        <p id="report-summary" class="summary-text"></p>
+      </section>
+
+      <section class="results" id="results"></section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Source bank by domain</h2>
+          <button id="refresh-domains" class="tiny-button">Refresh</button>
+        </div>
+        <div id="domain-grid" class="domain-grid"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

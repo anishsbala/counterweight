@@ -1,0 +1,568 @@
+[
+  {
+    "slug": "iea-renewables",
+    "title": "Renewables 2024",
+    "url": "https://www.iea.org/reports/renewables-2024",
+    "organization": "International Energy Agency",
+    "domain": "energy",
+    "source_type": "report",
+    "snippet": "Annual outlook covering renewable capacity additions, power-sector trends, and deployment by technology.",
+    "tags": [
+      "energy",
+      "renewable",
+      "solar",
+      "wind",
+      "capacity",
+      "outlook",
+      "report",
+      "forecast"
+    ],
+    "authority_score": 0.98
+  },
+  {
+    "slug": "irena-generation-costs",
+    "title": "Renewable Power Generation Costs",
+    "url": "https://www.irena.org/Publications",
+    "organization": "IRENA",
+    "domain": "energy",
+    "source_type": "report",
+    "snippet": "Analysis of renewable power generation costs, including utility-scale solar and onshore wind competitiveness.",
+    "tags": [
+      "energy",
+      "renewable",
+      "solar",
+      "cost",
+      "electricity",
+      "generation",
+      "analysis",
+      "comparative"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "eia-electric-power-monthly",
+    "title": "Electric Power Monthly",
+    "url": "https://www.eia.gov/electricity/monthly/",
+    "organization": "U.S. Energy Information Administration",
+    "domain": "energy",
+    "source_type": "dataset",
+    "snippet": "Monthly U.S. electricity generation, fuel mix, capacity, and power-sector operating statistics.",
+    "tags": [
+      "energy",
+      "electricity",
+      "generation",
+      "capacity",
+      "statistics",
+      "data",
+      "report"
+    ],
+    "authority_score": 0.96
+  },
+  {
+    "slug": "nrel-storage-basics",
+    "title": "Battery Storage Basics",
+    "url": "https://www.nrel.gov/grid/energy-storage.html",
+    "organization": "National Renewable Energy Laboratory",
+    "domain": "energy",
+    "source_type": "research",
+    "snippet": "Technical overview of battery storage, grid integration, and cost improvements for energy storage systems.",
+    "tags": [
+      "energy",
+      "battery",
+      "storage",
+      "grid",
+      "cost",
+      "research",
+      "study"
+    ],
+    "authority_score": 0.95
+  },
+  {
+    "slug": "lazard-lcoe",
+    "title": "Levelized Cost of Energy+",
+    "url": "https://www.lazard.com/research-insights/",
+    "organization": "Lazard",
+    "domain": "energy",
+    "source_type": "report",
+    "snippet": "Comparative analysis of levelized cost of energy across generation technologies and storage use cases.",
+    "tags": [
+      "energy",
+      "solar",
+      "electricity",
+      "cost",
+      "comparative",
+      "analysis",
+      "report"
+    ],
+    "authority_score": 0.9
+  },
+  {
+    "slug": "our-world-in-data-energy",
+    "title": "Energy Data Explorer",
+    "url": "https://ourworldindata.org/energy",
+    "organization": "Our World in Data",
+    "domain": "energy",
+    "source_type": "dashboard",
+    "snippet": "Charts and research summaries on electricity mix, renewables, solar expansion, and long-run energy trends.",
+    "tags": [
+      "energy",
+      "solar",
+      "renewable",
+      "electricity",
+      "data",
+      "charts",
+      "analysis"
+    ],
+    "authority_score": 0.88
+  },
+  {
+    "slug": "ipcc-ar6-wg3",
+    "title": "IPCC AR6 Working Group III",
+    "url": "https://www.ipcc.ch/report/ar6/wg3/",
+    "organization": "IPCC",
+    "domain": "climate",
+    "source_type": "report",
+    "snippet": "Climate mitigation assessment covering emissions, technology pathways, and power-sector decarbonization.",
+    "tags": [
+      "climate",
+      "emission",
+      "mitigation",
+      "electricity",
+      "carbon",
+      "report",
+      "research"
+    ],
+    "authority_score": 0.98
+  },
+  {
+    "slug": "noaa-climate-indicators",
+    "title": "Climate Indicators",
+    "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/",
+    "organization": "NOAA",
+    "domain": "climate",
+    "source_type": "dataset",
+    "snippet": "Climate monitoring products tracking temperature, precipitation, and other U.S. and global climate indicators.",
+    "tags": [
+      "climate",
+      "temperature",
+      "warming",
+      "data",
+      "statistics",
+      "dashboard"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "nasa-vital-signs",
+    "title": "Climate Change: Vital Signs",
+    "url": "https://climate.nasa.gov/vital-signs/",
+    "organization": "NASA",
+    "domain": "climate",
+    "source_type": "dashboard",
+    "snippet": "Global climate indicators including carbon dioxide, temperature, sea ice, and sea level measurements.",
+    "tags": [
+      "climate",
+      "carbon",
+      "temperature",
+      "sea",
+      "level",
+      "data",
+      "research"
+    ],
+    "authority_score": 0.96
+  },
+  {
+    "slug": "epa-ghg-inventory",
+    "title": "Inventory of U.S. Greenhouse Gas Emissions and Sinks",
+    "url": "https://www.epa.gov/ghgemissions/inventory-us-greenhouse-gas-emissions-and-sinks",
+    "organization": "U.S. Environmental Protection Agency",
+    "domain": "climate",
+    "source_type": "report",
+    "snippet": "Official inventory summarizing greenhouse gas emissions by sector and source category.",
+    "tags": [
+      "climate",
+      "emission",
+      "greenhouse",
+      "carbon",
+      "statistics",
+      "report"
+    ],
+    "authority_score": 0.95
+  },
+  {
+    "slug": "cdc-faststats",
+    "title": "FastStats",
+    "url": "https://www.cdc.gov/nchs/fastats/",
+    "organization": "Centers for Disease Control and Prevention",
+    "domain": "health",
+    "source_type": "dataset",
+    "snippet": "Public health statistics on obesity, mortality, chronic disease, birth, and health system indicators.",
+    "tags": [
+      "health",
+      "obesity",
+      "mortality",
+      "statistics",
+      "data",
+      "report"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "nih-health-topics",
+    "title": "NIH Health Information",
+    "url": "https://www.nih.gov/health-information",
+    "organization": "National Institutes of Health",
+    "domain": "health",
+    "source_type": "research",
+    "snippet": "Research-backed health topic summaries and medical evidence from NIH institutes and centers.",
+    "tags": [
+      "health",
+      "research",
+      "disease",
+      "study",
+      "analysis",
+      "patients"
+    ],
+    "authority_score": 0.96
+  },
+  {
+    "slug": "who-observatory",
+    "title": "Global Health Observatory",
+    "url": "https://www.who.int/data/gho",
+    "organization": "World Health Organization",
+    "domain": "health",
+    "source_type": "dashboard",
+    "snippet": "Global health indicators and country comparisons on disease, mortality, vaccination, and system capacity.",
+    "tags": [
+      "health",
+      "global",
+      "mortality",
+      "vaccination",
+      "statistics",
+      "data",
+      "dashboard"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "kff-health-costs",
+    "title": "Health Costs and Affordability",
+    "url": "https://www.kff.org/health-costs/",
+    "organization": "KFF",
+    "domain": "health",
+    "source_type": "policy",
+    "snippet": "Research and policy analysis on health care costs, access, and insurance coverage in the United States.",
+    "tags": [
+      "health",
+      "hospital",
+      "insurance",
+      "cost",
+      "analysis",
+      "research",
+      "policy"
+    ],
+    "authority_score": 0.89
+  },
+  {
+    "slug": "bls-employment-situation",
+    "title": "Employment Situation",
+    "url": "https://www.bls.gov/news.release/empsit.toc.htm",
+    "organization": "Bureau of Labor Statistics",
+    "domain": "labor",
+    "source_type": "report",
+    "snippet": "Monthly jobs report covering payroll growth, unemployment, labor force participation, and wages.",
+    "tags": [
+      "labor",
+      "employment",
+      "jobs",
+      "unemployment",
+      "wage",
+      "statistics",
+      "report"
+    ],
+    "authority_score": 0.98
+  },
+  {
+    "slug": "bls-ces",
+    "title": "Current Employment Statistics",
+    "url": "https://www.bls.gov/ces/",
+    "organization": "Bureau of Labor Statistics",
+    "domain": "labor",
+    "source_type": "dataset",
+    "snippet": "Establishment survey data covering industry payrolls, hours worked, and earnings across the U.S. economy.",
+    "tags": [
+      "labor",
+      "employment",
+      "payroll",
+      "hours",
+      "earnings",
+      "data",
+      "statistics"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "oecd-employment-outlook",
+    "title": "OECD Employment Outlook",
+    "url": "https://www.oecd.org/employment-outlook/",
+    "organization": "OECD",
+    "domain": "labor",
+    "source_type": "report",
+    "snippet": "International labor-market trends on wages, jobs, worker mobility, and employment policy.",
+    "tags": [
+      "labor",
+      "employment",
+      "wage",
+      "jobs",
+      "policy",
+      "trend",
+      "report"
+    ],
+    "authority_score": 0.93
+  },
+  {
+    "slug": "bea-gdp",
+    "title": "Gross Domestic Product",
+    "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
+    "organization": "Bureau of Economic Analysis",
+    "domain": "economics",
+    "source_type": "dataset",
+    "snippet": "National accounts data on GDP, growth, consumption, investment, and government spending.",
+    "tags": [
+      "economics",
+      "gdp",
+      "growth",
+      "consumption",
+      "investment",
+      "data",
+      "statistics"
+    ],
+    "authority_score": 0.98
+  },
+  {
+    "slug": "fred-inflation",
+    "title": "FRED Inflation and Prices",
+    "url": "https://fred.stlouisfed.org/",
+    "organization": "Federal Reserve Bank of St. Louis",
+    "domain": "economics",
+    "source_type": "dashboard",
+    "snippet": "Macroeconomic dashboards covering inflation, prices, GDP, interest rates, and labor data.",
+    "tags": [
+      "economics",
+      "inflation",
+      "prices",
+      "dashboard",
+      "data",
+      "statistics"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "world-bank-development-indicators",
+    "title": "World Development Indicators",
+    "url": "https://data.worldbank.org/",
+    "organization": "World Bank",
+    "domain": "economics",
+    "source_type": "dataset",
+    "snippet": "Global indicators on growth, poverty, trade, and public-finance outcomes across countries.",
+    "tags": [
+      "economics",
+      "growth",
+      "trade",
+      "poverty",
+      "data",
+      "statistics",
+      "global"
+    ],
+    "authority_score": 0.96
+  },
+  {
+    "slug": "nces-condition-of-education",
+    "title": "The Condition of Education",
+    "url": "https://nces.ed.gov/programs/coe/",
+    "organization": "National Center for Education Statistics",
+    "domain": "education",
+    "source_type": "report",
+    "snippet": "Federal indicator report covering enrollment, attainment, costs, and outcomes across the U.S. education system.",
+    "tags": [
+      "education",
+      "student",
+      "school",
+      "college",
+      "enrollment",
+      "report",
+      "statistics"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "nces-digest",
+    "title": "Digest of Education Statistics",
+    "url": "https://nces.ed.gov/programs/digest/",
+    "organization": "National Center for Education Statistics",
+    "domain": "education",
+    "source_type": "dataset",
+    "snippet": "Long-run education statistics on schools, teachers, college attendance, and graduation outcomes.",
+    "tags": [
+      "education",
+      "student",
+      "school",
+      "graduation",
+      "teacher",
+      "data",
+      "statistics"
+    ],
+    "authority_score": 0.96
+  },
+  {
+    "slug": "census-quickfacts",
+    "title": "QuickFacts",
+    "url": "https://www.census.gov/quickfacts/",
+    "organization": "U.S. Census Bureau",
+    "domain": "demographics",
+    "source_type": "dashboard",
+    "snippet": "Population, housing, age, income, and household facts for states, counties, and cities.",
+    "tags": [
+      "demographics",
+      "population",
+      "household",
+      "county",
+      "census",
+      "data",
+      "statistics"
+    ],
+    "authority_score": 0.98
+  },
+  {
+    "slug": "census-population-estimates",
+    "title": "Population Estimates Program",
+    "url": "https://www.census.gov/programs-surveys/popest.html",
+    "organization": "U.S. Census Bureau",
+    "domain": "demographics",
+    "source_type": "dataset",
+    "snippet": "Annual estimates of resident population change, migration, births, and deaths.",
+    "tags": [
+      "demographics",
+      "population",
+      "migration",
+      "birth",
+      "census",
+      "data",
+      "statistics"
+    ],
+    "authority_score": 0.97
+  },
+  {
+    "slug": "urban-institute-demographics",
+    "title": "Urban Institute Demographics Research",
+    "url": "https://www.urban.org/",
+    "organization": "Urban Institute",
+    "domain": "demographics",
+    "source_type": "research",
+    "snippet": "Policy research on migration, population change, households, and inequality in U.S. communities.",
+    "tags": [
+      "demographics",
+      "migration",
+      "household",
+      "population",
+      "research",
+      "policy"
+    ],
+    "authority_score": 0.9
+  },
+  {
+    "slug": "nist-ai-risk-framework",
+    "title": "AI Risk Management Framework",
+    "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+    "organization": "NIST",
+    "domain": "technology",
+    "source_type": "policy",
+    "snippet": "Framework for managing AI risk, evaluation, governance, and trustworthy system development.",
+    "tags": [
+      "technology",
+      "ai",
+      "model",
+      "risk",
+      "policy",
+      "framework",
+      "governance"
+    ],
+    "authority_score": 0.96
+  },
+  {
+    "slug": "stanford-hai-index",
+    "title": "AI Index Report",
+    "url": "https://hai.stanford.edu/ai-index",
+    "organization": "Stanford HAI",
+    "domain": "technology",
+    "source_type": "report",
+    "snippet": "Annual report on AI research, models, compute, investment, and global adoption trends.",
+    "tags": [
+      "technology",
+      "ai",
+      "model",
+      "compute",
+      "investment",
+      "report",
+      "trend"
+    ],
+    "authority_score": 0.93
+  },
+  {
+    "slug": "oecd-ai-policy-observatory",
+    "title": "OECD AI Policy Observatory",
+    "url": "https://oecd.ai/",
+    "organization": "OECD AI Policy Observatory",
+    "domain": "technology",
+    "source_type": "dashboard",
+    "snippet": "International AI policy, compute, and adoption tracking with country-level data and research summaries.",
+    "tags": [
+      "technology",
+      "ai",
+      "policy",
+      "data",
+      "dashboard",
+      "adoption",
+      "compute"
+    ],
+    "authority_score": 0.91
+  },
+  {
+    "slug": "sia-factbook",
+    "title": "Semiconductor Industry Factbook",
+    "url": "https://www.semiconductors.org/resources/",
+    "organization": "Semiconductor Industry Association",
+    "domain": "technology",
+    "source_type": "report",
+    "snippet": "Industry data on chip sales, manufacturing, supply chains, and semiconductor investment.",
+    "tags": [
+      "technology",
+      "chip",
+      "semiconductor",
+      "manufacturing",
+      "sales",
+      "report",
+      "data"
+    ],
+    "authority_score": 0.9
+  },
+  {
+    "slug": "itu-connectivity-facts",
+    "title": "Facts and Figures on Connectivity",
+    "url": "https://www.itu.int/",
+    "organization": "International Telecommunication Union",
+    "domain": "technology",
+    "source_type": "report",
+    "snippet": "Global metrics on broadband, internet access, digital adoption, and connectivity gaps.",
+    "tags": [
+      "technology",
+      "internet",
+      "broadband",
+      "connectivity",
+      "data",
+      "statistics",
+      "global"
+    ],
+    "authority_score": 0.92
+  }
+]
