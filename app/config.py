@@ -13,6 +13,8 @@ DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql://counterweight:counterweight@localhost:5432/counterweight",
 )
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+CORS_ORIGINS = [item.strip() for item in os.getenv("CORS_ORIGINS", "http://localhost:8000").split(",") if item.strip()]
 DB_CONNECT_RETRIES = int(os.getenv("DB_CONNECT_RETRIES", "20"))
 DB_CONNECT_DELAY_SECONDS = float(os.getenv("DB_CONNECT_DELAY_SECONDS", "1.5"))
 AUTO_INIT_DB = os.getenv("AUTO_INIT_DB", "1") == "1"
