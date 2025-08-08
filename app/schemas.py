@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -165,7 +165,29 @@ class DomainBreakdownResponse(BaseModel):
 
 
 class BenchmarkResponse(BaseModel):
-    manual_review_minutes: int
-    counterweight_minutes: int
-    speedup: float
+    available: bool
+    jobs: Optional[int] = None
+    single_worker_seconds: Optional[float] = None
+    four_worker_seconds: Optional[float] = None
+    speedup: Optional[float] = None
+    generated_at: Optional[datetime] = None
     notes: List[str]
+
+
+class JobAcceptedResponse(BaseModel):
+    job_id: str
+    status: str
+    status_url: str
+
+
+class JobDetailResponse(BaseModel):
+    job_id: str
+    status: str
+    attempts: int
+    max_attempts: int
+    worker_id: Optional[str] = None
+    error: Optional[str] = None
+    result: Optional[Dict[str, Any]] = None
+    created_at: datetime
+    started_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
