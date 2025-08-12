@@ -84,6 +84,22 @@ CREATE TABLE IF NOT EXISTS evaluation_evidence (
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS verification_jobs (
+    id UUID PRIMARY KEY,
+    status VARCHAR(20) NOT NULL,
+    payload JSONB NOT NULL,
+    result JSONB,
+    error TEXT,
+    attempts INTEGER NOT NULL DEFAULT 0,
+    max_attempts INTEGER NOT NULL DEFAULT 3,
+    worker_id VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    started_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    CONSTRAINT verification_jobs_status_check
+        CHECK (status IN ('QUEUED', 'RUNNING', 'SUCCEEDED', 'FAILED'))
+);
+
 ALTER TABLE evaluation_evidence ADD COLUMN IF NOT EXISTS relevance_score NUMERIC(6,1) NOT NULL DEFAULT 0;
 ALTER TABLE evaluation_evidence ADD COLUMN IF NOT EXISTS coverage_score NUMERIC(6,1) NOT NULL DEFAULT 0;
 ALTER TABLE evaluation_evidence ADD COLUMN IF NOT EXISTS authority_component NUMERIC(6,1) NOT NULL DEFAULT 0;
@@ -95,3 +111,5 @@ CREATE INDEX IF NOT EXISTS idx_claim_evaluations_claim_id ON claim_evaluations(c
 CREATE INDEX IF NOT EXISTS idx_evaluation_evidence_evaluation_id ON evaluation_evidence(evaluation_id);
 CREATE INDEX IF NOT EXISTS idx_sources_slug ON sources(slug);
 CREATE INDEX IF NOT EXISTS idx_articles_domain ON articles(article_domain);
+CREATE INDEX IF NOT EXISTS idx_verification_jobs_status ON verification_jobs(status);
+CREATE INDEX IF NOT EXISTS idx_verification_jobs_created_at ON verification_jobs(created_at DESC);
