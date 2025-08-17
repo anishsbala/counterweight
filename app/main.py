@@ -8,8 +8,18 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from app.config import APP_NAME, APP_VERSION, AUTO_INIT_DB, DEFAULT_ARTICLE_LIMIT, SEED_SOURCE_BANK, STATIC_DIR, TESTING
+from app.config import (
+    APP_NAME,
+    APP_VERSION,
+    AUTO_INIT_DB,
+    CORS_ORIGINS,
+    DEFAULT_ARTICLE_LIMIT,
+    SEED_SOURCE_BANK,
+    STATIC_DIR,
+    TESTING,
+)
 from app.db import run_sql_file, wait_for_database
+from app.jobs import JobService
 from app.schemas import (
     AppStatsResponse,
     ArticleDetailResponse,
@@ -19,11 +29,13 @@ from app.schemas import (
     ClaimVerificationResponse,
     DomainBreakdownResponse,
     EvidenceResponse,
+    JobAcceptedResponse,
+    JobDetailResponse,
     SourceDetailResponse,
     SourceSummaryResponse,
+    VerdictCountsResponse,
     VerifyArticleRequest,
     VerifyArticleResponse,
-    VerdictCountsResponse,
 )
 from app.services.benchmark import BenchmarkService
 from app.services.claim_extractor import ClaimExtractor
@@ -39,6 +51,7 @@ benchmark_service = BenchmarkService()
 source_loader = SourceBankLoader()
 source_cache = source_loader.load() if TESTING else []
 retriever = EvidenceRetriever(source_cache)
+job_service = JobService()
 
 
 @asynccontextmanager
@@ -52,13 +65,14 @@ async def lifespan(_: FastAPI):
             store.upsert_sources(source_loader.load())
         source_cache = store.get_sources()
         retriever = EvidenceRetriever(source_cache)
+        job_service.recover_queued_jobs()
     yield
 
 
 app = FastAPI(title=APP_NAME, version=APP_VERSION, lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -79,6 +93,25 @@ def health_check() -> Dict[str, str]:
 @app.get("/benchmark", response_model=BenchmarkResponse)
 def benchmark() -> BenchmarkResponse:
     return benchmark_service.get_summary()
+
+
+@app.post("/jobs", response_model=JobAcceptedResponse, status_code=202)
+def create_job(payload: VerifyArticleRequest) -> JobAcceptedResponse:
+    queued_payload = payload.model_copy(update={"persist": True}).model_dump(mode="json")
+    return JobAcceptedResponse(**job_service.create_job(queued_payload))
+
+
+@app.get("/jobs", response_model=List[JobDetailResponse])
+def list_jobs(limit: int = Query(50, ge=1, le=100)) -> List[JobDetailResponse]:
+    return [JobDetailResponse(**row) for row in job_service.list_jobs(limit)]
+
+
+@app.get("/jobs/{job_id}", response_model=JobDetailResponse)
+def get_job(job_id: str) -> JobDetailResponse:
+    row = job_service.get_job(job_id)
+    if row is None:
+        raise HTTPException(status_code=404, detail="Job not found.")
+    return JobDetailResponse(**row)
 
 
 @app.get("/sources", response_model=List[SourceSummaryResponse])
