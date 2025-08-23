@@ -8,21 +8,61 @@ services:
       POSTGRES_PASSWORD: counterweight
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U counterweight"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: redis:7-alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
 
   api:
     build: .
     container_name: counterweight-api
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       DATABASE_URL: postgresql://counterweight:counterweight@db:5432/counterweight
+      REDIS_URL: redis://redis:6379/0
       AUTO_INIT_DB: "1"
       SEED_SOURCE_BANK: "1"
     ports:
       - "8000:8000"
+    volumes:
+      - ./benchmarks:/code/benchmarks
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
+  worker:
+    build: .
+    depends_on:
+      api:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://counterweight:counterweight@db:5432/counterweight
+      REDIS_URL: redis://redis:6379/0
+      AUTO_INIT_DB: "0"
+      SEED_SOURCE_BANK: "0"
+    command: ["python", "-m", "app.worker"]
+    restart: unless-stopped
 
 volumes:
   postgres_data:
