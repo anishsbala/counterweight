@@ -69,7 +69,7 @@ runButton.addEventListener("click", async () => {
   resultsRoot.innerHTML = "";
 
   try {
-    const response = await fetch("/verify", {
+    const response = await fetch("/jobs", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -94,7 +94,9 @@ runButton.addEventListener("click", async () => {
       throw new Error(payload?.detail || rawText || "Verification failed.");
     }
 
-    renderVerification(payload);
+    runButton.textContent = `Queued ${payload.job_id.slice(0, 8)}...`;
+    const job = await waitForJob(payload.job_id);
+    renderVerification(job.result);
     await Promise.all([loadStats(), loadHistory(), loadDomains()]);
   } catch (error) {
     resultsRoot.innerHTML = `<article class="result-card"><p>${escapeHtml(error.message)}</p></article>`;
@@ -103,6 +105,24 @@ runButton.addEventListener("click", async () => {
     runButton.textContent = "Run verification";
   }
 });
+
+async function waitForJob(jobId) {
+  const deadline = Date.now() + 120000;
+  while (Date.now() < deadline) {
+    const response = await fetch(`/jobs/${jobId}`);
+    const job = await response.json();
+    if (!response.ok) {
+      throw new Error(job.detail || "Could not read queued job.");
+    }
+    if (job.status === "SUCCEEDED") return job;
+    if (job.status === "FAILED") {
+      throw new Error(job.error || "Queued verification failed.");
+    }
+    runButton.textContent = `${job.status.toLowerCase()} (attempt ${job.attempts})`;
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  throw new Error("Queued verification timed out.");
+}
 
 clearButton.addEventListener("click", () => {
   resultsRoot.innerHTML = "";
