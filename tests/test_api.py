@@ -11,10 +11,11 @@ def test_health_check():
     assert response.json()["status"] == "ok"
 
 
-def test_benchmark_route():
+def test_benchmark_route_requires_measured_results():
     response = client.get("/benchmark")
     assert response.status_code == 200
-    assert response.json()["speedup"] == 3.1
+    assert response.json()["available"] is False
+    assert response.json()["speedup"] is None
 
 
 def test_verify_route_without_database():
