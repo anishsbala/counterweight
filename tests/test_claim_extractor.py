@@ -1,6 +1,5 @@
 from app.services.claim_extractor import ClaimExtractor
 
-
 extractor = ClaimExtractor()
 
 

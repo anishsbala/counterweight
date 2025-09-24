@@ -121,7 +121,9 @@ class EvidenceRetriever:
         source_text_norm = self._normalize_text(source_text)
         source_tokens = set(self._tokens(source_text))
         keyword_hits = sorted(claim_token_set & source_tokens)
-        tag_hits = sorted({self._canonicalize(tag) for tag in source.tags if self._canonicalize(tag) in claim_token_set})
+        tag_hits = sorted(
+            {self._canonicalize(tag) for tag in source.tags if self._canonicalize(tag) in claim_token_set}
+        )
         phrase_hits = [phrase for phrase in claim_phrases if phrase in source_text_norm]
         source_numbers = set(self._number_pattern.findall(source_text))
         matched_numbers = sorted(claim_numbers & source_numbers)
@@ -140,7 +142,9 @@ class EvidenceRetriever:
         number_score = min(len(matched_numbers) * 6.0, 12.0)
         authority_component = round(source.authority_score * 18.0, 1)
         claim_type_bonus = self._claim_type_bonus(claim, source)
-        key_term_bonus = min(sum(1 for term in claim.key_terms if self._canonicalize(term) in source_tokens) * 2.5, 10.0)
+        key_term_bonus = min(
+            sum(1 for term in claim.key_terms if self._canonicalize(term) in source_tokens) * 2.5, 10.0
+        )
         text_subset_bonus = 4.0 if claim_text_norm[:80] and claim_text_norm[:80] in source_text_norm else 0.0
 
         total_score = (
@@ -160,13 +164,17 @@ class EvidenceRetriever:
         if claim.hedged:
             total_score -= 3.5
 
-        relevance_score = round(min(100.0, keyword_score + tag_score + phrase_score + key_term_bonus + text_subset_bonus), 1)
+        relevance_score = round(
+            min(100.0, keyword_score + tag_score + phrase_score + key_term_bonus + text_subset_bonus), 1
+        )
         coverage_score = round(
             min(100.0, domain_score + len(keyword_hits) * 4.0 + len(tag_hits) * 4.0 + len(phrase_hits) * 5.0),
             1,
         )
         match_score = round(min(100.0, total_score), 1)
-        signal_summary = self._build_signal_summary(claim.domain, tag_hits, keyword_hits, phrase_hits, matched_numbers, source)
+        signal_summary = self._build_signal_summary(
+            claim.domain, tag_hits, keyword_hits, phrase_hits, matched_numbers, source
+        )
         debug_factors = {
             "domain_score": round(domain_score, 1),
             "keyword_score": round(keyword_score, 1),

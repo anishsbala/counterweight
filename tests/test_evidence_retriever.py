@@ -2,7 +2,6 @@ from app.models import Claim
 from app.services.evidence_retriever import EvidenceRetriever
 from app.services.source_bank import SourceBankLoader
 
-
 loader = SourceBankLoader()
 retriever = EvidenceRetriever(loader.load())
 
