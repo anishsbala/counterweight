@@ -1,6 +1,6 @@
 # Counterweight
 
-Counterweight is a Dockerized claim-verification project built with **Python, FastAPI, PostgreSQL, and Docker**. It ingests article text, extracts checkable claims, routes them into a domain-aware retrieval flow, ranks evidence from a curated source bank, assigns verdicts, and stores the full run in Postgres.
+Counterweight is a Dockerized claim-verification platform built with **Python, FastAPI, PostgreSQL, Redis, and Docker**. It ingests article text, extracts checkable claims, queues verification jobs across worker processes, ranks evidence from a curated source bank, assigns verdicts, and stores the full run in Postgres.
 
 The core flow is:
 
@@ -27,6 +27,8 @@ The core flow is:
 - Authority-weighted curated source bank with typed sources (`report`, `dataset`, `research`, `dashboard`, `policy`)
 - Stronger verdict calibration with claim-level explanations and reviewer notes
 - Full persistence for articles, claims, evaluations, and evidence hits
+- Persistent PostgreSQL job state with Redis-backed worker dispatch
+- Retryable Docker workers with queue recovery after API restarts
 - Article history, source detail, domain breakdown, export route, benchmark route, and stats route
 - Minimal but useful frontend so you can actually demo the project without sending people straight to `/docs`
 
@@ -68,6 +70,12 @@ Then open:
 - Demo UI: `http://localhost:8000/`
 - API docs: `http://localhost:8000/docs`
 - Health check: `http://localhost:8000/health`
+
+The default Compose stack starts one worker. Scale it without changing application code:
+
+```bash
+docker compose up -d --scale worker=4
+```
 
 If you are reusing an older local volume from a previous Counterweight version, reset it once with:
 
@@ -140,6 +148,9 @@ curl -X POST "http://localhost:8000/verify"   -H "Content-Type: application/json
 
 - `GET /health`
 - `GET /benchmark`
+- `POST /jobs`
+- `GET /jobs`
+- `GET /jobs/{job_id}`
 - `GET /stats`
 - `GET /domains`
 - `GET /sources`
@@ -148,6 +159,18 @@ curl -X POST "http://localhost:8000/verify"   -H "Content-Type: application/json
 - `GET /articles/{article_id}`
 - `GET /articles/{article_id}/export`
 - `POST /verify`
+
+`POST /verify` remains available for synchronous development checks. The demo UI uses `POST /jobs`, and Docker workers perform the verification pipeline.
+
+## Worker benchmark
+
+```bash
+python scripts/benchmark_workers.py --jobs 40 --minimum-speedup 3.1
+```
+
+The benchmark measures the same batch through one worker and four workers using the persistent job API. It writes `benchmarks/latest.json`, which powers `GET /benchmark`. The script exits unsuccessfully when the measured result is below the requested threshold; it never substitutes a fixed resume number.
+
+Only report the measured speedup from your machine or CI run.
 
 ## Running tests
 
