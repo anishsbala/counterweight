@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS_PATH = ROOT / "benchmarks" / "latest.json"
+POLL_INTERVAL_SECONDS = 0.02
 
 
 def request_json(
@@ -83,7 +84,7 @@ def wait_for_jobs(api_url: str, job_ids: List[str], timeout: float = 300) -> Non
             elif job["status"] == "FAILED":
                 raise RuntimeError(f"Benchmark job failed: {job_id}: {job.get('error')}")
         if remaining:
-            time.sleep(0.1)
+            time.sleep(POLL_INTERVAL_SECONDS)
     if remaining:
         raise TimeoutError(f"Timed out waiting for {len(remaining)} jobs.")
 
