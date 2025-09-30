@@ -25,6 +25,9 @@ class FakeRepository:
     def list(self, limit):
         return [{"job_id": "job-1", "status": "QUEUED"}]
 
+    def statuses(self, job_ids):
+        return [{"job_id": job_id, "status": "RUNNING", "error": None} for job_id in job_ids]
+
     def queued_ids(self):
         return ["job-1", "job-2"]
 
@@ -63,6 +66,17 @@ def test_failed_job_is_requeued_when_attempts_remain():
     assert retry is True
     assert repository.failed == ("job-1", "temporary error")
     assert queue.items == ["job-1"]
+
+
+def test_reads_compact_statuses_for_requested_jobs():
+    service = JobService(repository=FakeRepository(), queue=FakeQueue())
+
+    statuses = service.job_statuses(["job-1", "job-2"])
+
+    assert statuses == [
+        {"job_id": "job-1", "status": "RUNNING", "error": None},
+        {"job_id": "job-2", "status": "RUNNING", "error": None},
+    ]
 
 
 def test_recover_queued_jobs_repopulates_redis():

@@ -137,6 +137,20 @@ class JobRepository:
         )
         return [self._normalize(row) for row in rows]
 
+    def statuses(self, job_ids: List[str]) -> List[Dict[str, Any]]:
+        rows = fetch_all(
+            """
+            SELECT id, status, error
+            FROM verification_jobs
+            WHERE id = ANY(%s::uuid[])
+            """,
+            (job_ids,),
+        )
+        return [
+            {"job_id": str(row["id"]), "status": row["status"], "error": row["error"]}
+            for row in rows
+        ]
+
     def queued_ids(self) -> List[str]:
         rows = fetch_all("SELECT id FROM verification_jobs WHERE status = 'QUEUED' ORDER BY created_at ASC")
         return [str(row["id"]) for row in rows]
@@ -188,6 +202,9 @@ class JobService:
 
     def list_jobs(self, limit: int = 50) -> List[Dict[str, Any]]:
         return self.repository.list(limit)
+
+    def job_statuses(self, job_ids: List[str]) -> List[Dict[str, Any]]:
+        return self.repository.statuses(job_ids)
 
     def recover_queued_jobs(self) -> int:
         job_ids = self.repository.queued_ids()

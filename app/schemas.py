@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Any, Dict, List, Optional
+from uuid import UUID
 
 from pydantic import BaseModel, Field
 
@@ -178,6 +179,16 @@ class JobAcceptedResponse(BaseModel):
     job_id: str
     status: str
     status_url: str
+
+
+class JobStatusBatchRequest(BaseModel):
+    job_ids: List[UUID] = Field(..., min_length=1, max_length=100)
+
+
+class JobStatusResponse(BaseModel):
+    job_id: str
+    status: str
+    error: Optional[str] = None
 
 
 class JobDetailResponse(BaseModel):
