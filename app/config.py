@@ -17,6 +17,8 @@ REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 CORS_ORIGINS = [item.strip() for item in os.getenv("CORS_ORIGINS", "http://localhost:8000").split(",") if item.strip()]
 DB_CONNECT_RETRIES = int(os.getenv("DB_CONNECT_RETRIES", "20"))
 DB_CONNECT_DELAY_SECONDS = float(os.getenv("DB_CONNECT_DELAY_SECONDS", "1.5"))
+DB_POOL_MIN_SIZE = int(os.getenv("DB_POOL_MIN_SIZE", "1"))
+DB_POOL_MAX_SIZE = int(os.getenv("DB_POOL_MAX_SIZE", "10"))
 AUTO_INIT_DB = os.getenv("AUTO_INIT_DB", "1") == "1"
 SEED_SOURCE_BANK = os.getenv("SEED_SOURCE_BANK", "1") == "1"
 TESTING = os.getenv("TESTING", "0") == "1"

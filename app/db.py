@@ -1,23 +1,48 @@
 import time
 from contextlib import contextmanager
 from pathlib import Path
+from threading import Lock
 
-from app.config import DATABASE_URL, DB_CONNECT_DELAY_SECONDS, DB_CONNECT_RETRIES, TESTING
+from app.config import (
+    DATABASE_URL,
+    DB_CONNECT_DELAY_SECONDS,
+    DB_CONNECT_RETRIES,
+    DB_POOL_MAX_SIZE,
+    DB_POOL_MIN_SIZE,
+    TESTING,
+)
 
 try:
-    import psycopg2
     from psycopg2.extras import RealDictCursor
+    from psycopg2.pool import ThreadedConnectionPool
 except ModuleNotFoundError:  # pragma: no cover - only for test environments without postgres deps
-    psycopg2 = None
     RealDictCursor = None
+    ThreadedConnectionPool = None
+
+_connection_pool = None
+_pool_lock = Lock()
+
+
+def get_connection_pool():
+    global _connection_pool
+    if ThreadedConnectionPool is None:
+        raise RuntimeError("psycopg2 is not installed. Install requirements.txt before using the database.")
+    if _connection_pool is None:
+        with _pool_lock:
+            if _connection_pool is None:
+                _connection_pool = ThreadedConnectionPool(
+                    DB_POOL_MIN_SIZE,
+                    DB_POOL_MAX_SIZE,
+                    dsn=DATABASE_URL,
+                    cursor_factory=RealDictCursor,
+                )
+    return _connection_pool
 
 
 @contextmanager
 def get_db_connection():
-    if psycopg2 is None:
-        raise RuntimeError("psycopg2 is not installed. Install requirements.txt before using the database.")
-
-    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
+    pool = get_connection_pool()
+    conn = pool.getconn()
     try:
         yield conn
         conn.commit()
@@ -25,7 +50,7 @@ def get_db_connection():
         conn.rollback()
         raise
     finally:
-        conn.close()
+        pool.putconn(conn, close=bool(conn.closed))
 
 
 @contextmanager
