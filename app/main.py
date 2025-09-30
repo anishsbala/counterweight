@@ -99,7 +99,7 @@ def benchmark() -> BenchmarkResponse:
 
 @app.post("/jobs", response_model=JobAcceptedResponse, status_code=202)
 def create_job(payload: VerifyArticleRequest) -> JobAcceptedResponse:
-    queued_payload = payload.model_copy(update={"persist": True}).model_dump(mode="json")
+    queued_payload = payload.model_dump(mode="json")
     return JobAcceptedResponse(**job_service.create_job(queued_payload))
 
 

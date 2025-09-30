@@ -126,7 +126,7 @@ def run_queue_drain(api_url: str, jobs: int, payload: Dict[str, Any]) -> float:
 
 def benchmark(api_url: str, jobs: int) -> Dict[str, Any]:
     payload = json.loads((ROOT / "scripts" / "demo_request_tech.json").read_text(encoding="utf-8"))
-    payload["persist"] = True
+    payload["persist"] = False
 
     subprocess.run(
         ["docker", "compose", "up", "--build", "-d", "db", "redis", "api"],
@@ -150,7 +150,7 @@ def benchmark(api_url: str, jobs: int) -> Dict[str, Any]:
         "notes": [
             "Measured the time required to drain an identical prefilled Redis queue.",
             "Job submission time was excluded so the result isolates worker throughput.",
-            "The same persisted verification workload was used for both runs.",
+            "Queue records persisted, while duplicate article-history writes were disabled.",
         ],
     }
 

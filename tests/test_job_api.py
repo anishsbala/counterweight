@@ -10,7 +10,7 @@ JOB_TWO = "ba55a3a4-d45f-4531-a310-3661be37ccb0"
 
 class FakeJobService:
     def create_job(self, payload, max_attempts=3):
-        assert payload["persist"] is True
+        assert payload["persist"] is False
         assert max_attempts == 3
         return {
             "job_id": "job-123",
