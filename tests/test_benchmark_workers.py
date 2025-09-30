@@ -1,5 +1,8 @@
+import json
+
 import pytest
 
+from app.services.claim_extractor import ClaimExtractor
 from scripts import benchmark_workers
 
 
@@ -88,3 +91,12 @@ def test_queue_drain_prefills_jobs_before_unpausing(monkeypatch):
         ("paused", False),
         ("wait", ["job-0", "job-1"]),
     ]
+
+
+def test_benchmark_payload_exercises_full_claim_pipeline():
+    payload_path = benchmark_workers.ROOT / "scripts" / "demo_request_tech.json"
+    payload = json.loads(payload_path.read_text(encoding="utf-8"))
+
+    claims = ClaimExtractor().extract(payload["article_text"])
+
+    assert len(claims) == 8

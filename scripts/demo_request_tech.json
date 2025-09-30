@@ -1,6 +1,6 @@
 {
-  "title": "AI Infrastructure Note",
+  "title": "AI Infrastructure and Cloud Capacity Report",
   "source_url": "https://example.com/ai-infrastructure-note",
-  "article_text": "Demand for AI compute pushed data center spending higher, while semiconductor firms reported stronger revenue tied to accelerator demand. Some analysts also said energy use from AI workloads could rise alongside new model deployments.",
+  "article_text": "According to infrastructure researchers, demand for AI compute pushed data center spending 28 percent higher during 2024. Semiconductor firms reported that accelerator revenue increased 24 percent as cloud providers expanded model-training capacity. Energy analysts estimated that electricity demand from large data centers rose 18 percent in regions with new AI deployments. Major cloud providers reported expanding accelerator capacity by 30 percent while introducing newer high-bandwidth networking systems. Industry analysts found that average inference costs declined 40 percent as software optimization and chip utilization improved. Broadband operators recorded a 16 percent increase in backbone traffic associated with cloud and AI services. Researchers reported that training larger models required more compute, although efficiency improvements reduced energy use per operation by 12 percent. A technology industry report showed that liquid-cooling deployments grew across high-density data centers during 2024.",
   "persist": true
 }
