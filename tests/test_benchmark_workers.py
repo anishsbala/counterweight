@@ -28,8 +28,16 @@ def test_wait_for_jobs_polls_job_collection(monkeypatch):
     benchmark_workers.wait_for_jobs("http://counterweight.test", ["job-1", "job-2"], timeout=1)
 
     assert requests == [
-        ("GET", "http://counterweight.test/jobs?limit=100", None),
-        ("GET", "http://counterweight.test/jobs?limit=100", None),
+        (
+            "POST",
+            "http://counterweight.test/jobs/statuses",
+            {"job_ids": ["job-1", "job-2"]},
+        ),
+        (
+            "POST",
+            "http://counterweight.test/jobs/statuses",
+            {"job_ids": ["job-1"]},
+        ),
     ]
 
 

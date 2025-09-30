@@ -69,7 +69,11 @@ def wait_for_jobs(api_url: str, job_ids: List[str], timeout: float = 300) -> Non
     remaining = set(job_ids)
     deadline = time.monotonic() + timeout
     while remaining and time.monotonic() < deadline:
-        jobs = request_json("GET", f"{api_url}/jobs?limit=100")
+        jobs = request_json(
+            "POST",
+            f"{api_url}/jobs/statuses",
+            {"job_ids": sorted(remaining)},
+        )
         for job in jobs:
             job_id = job["job_id"]
             if job_id not in remaining:
