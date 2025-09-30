@@ -31,6 +31,8 @@ from app.schemas import (
     EvidenceResponse,
     JobAcceptedResponse,
     JobDetailResponse,
+    JobStatusBatchRequest,
+    JobStatusResponse,
     SourceDetailResponse,
     SourceSummaryResponse,
     VerdictCountsResponse,
@@ -104,6 +106,16 @@ def create_job(payload: VerifyArticleRequest) -> JobAcceptedResponse:
 @app.get("/jobs", response_model=List[JobDetailResponse])
 def list_jobs(limit: int = Query(50, ge=1, le=100)) -> List[JobDetailResponse]:
     return [JobDetailResponse(**row) for row in job_service.list_jobs(limit)]
+
+
+@app.post("/jobs/statuses", response_model=List[JobStatusResponse])
+def get_job_statuses(payload: JobStatusBatchRequest) -> List[JobStatusResponse]:
+    requested_ids = [str(job_id) for job_id in payload.job_ids]
+    rows = job_service.job_statuses(requested_ids)
+    statuses = {row["job_id"]: row for row in rows}
+    return [
+        JobStatusResponse(**statuses[job_id]) for job_id in requested_ids if job_id in statuses
+    ]
 
 
 @app.get("/jobs/{job_id}", response_model=JobDetailResponse)
