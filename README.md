@@ -87,20 +87,24 @@ That forces Postgres to rebuild the schema cleanly.
 
 ### Option 2: Local Python + local Postgres
 
-1. Start PostgreSQL locally
-2. Create a database named `counterweight`
+1. Start PostgreSQL and Redis locally
+2. Create a PostgreSQL database named `counterweight`
 3. Set the environment variable:
 
 #### PowerShell
 
 ```powershell
 $env:DATABASE_URL="postgresql://counterweight:counterweight@localhost:5432/counterweight"
+$env:REDIS_URL="redis://localhost:6379/0"
+$env:DB_POOL_MAX_SIZE="10"
 ```
 
 #### Bash
 
 ```bash
 export DATABASE_URL="postgresql://counterweight:counterweight@localhost:5432/counterweight"
+export REDIS_URL="redis://localhost:6379/0"
+export DB_POOL_MAX_SIZE="10"
 ```
 
 4. Install requirements:
@@ -151,6 +155,7 @@ curl -X POST "http://localhost:8000/verify"   -H "Content-Type: application/json
 - `POST /jobs`
 - `GET /jobs`
 - `GET /jobs/{job_id}`
+- `POST /jobs/statuses`
 - `GET /stats`
 - `GET /domains`
 - `GET /sources`
@@ -165,10 +170,12 @@ curl -X POST "http://localhost:8000/verify"   -H "Content-Type: application/json
 ## Worker benchmark
 
 ```bash
-python scripts/benchmark_workers.py --jobs 40 --minimum-speedup 3.1
+python scripts/benchmark_workers.py --jobs 80 --minimum-speedup 3.1
 ```
 
-The benchmark measures the same batch through one worker and four workers using the persistent job API. It writes `benchmarks/latest.json`, which powers `GET /benchmark`. The script exits unsuccessfully when the measured result is below the requested threshold; it never substitutes a fixed resume number.
+The benchmark preloads the same queued workload while workers are paused, then compares how quickly one worker and four workers drain Redis. Job-submission time is excluded so the result isolates worker throughput rather than serial API latency. Queue records remain durable, while duplicate article-history writes are disabled for the measurement.
+
+It writes `benchmarks/latest.json`, which powers `GET /benchmark`. The script exits unsuccessfully when the measured result is below the requested threshold; it never substitutes a fixed resume number.
 
 Only report the measured speedup from your machine or CI run.
 
