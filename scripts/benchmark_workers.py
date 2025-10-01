@@ -129,7 +129,7 @@ def benchmark(api_url: str, jobs: int) -> Dict[str, Any]:
     payload["persist"] = False
 
     subprocess.run(
-        ["docker", "compose", "up", "--build", "-d", "db", "redis", "api"],
+        ["docker", "compose", "up", "--build", "-d", "db", "redis", "api", "worker"],
         cwd=ROOT,
         check=True,
     )
