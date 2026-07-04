@@ -1,6 +1,11 @@
 # Counterweight
 
+[![CI](https://github.com/anishsbala/counterweight/actions/workflows/ci.yml/badge.svg)](https://github.com/anishsbala/counterweight/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Counterweight is a Dockerized claim-verification platform built with **Python, FastAPI, PostgreSQL, Redis, and Docker**. It ingests article text, extracts checkable claims, queues verification jobs across worker processes, ranks evidence from a curated source bank, assigns verdicts, and stores the full run in Postgres.
+
+![Counterweight dashboard showing the verification form, source metrics, and queued run history](docs/assets/dashboard.png)
 
 The core flow is:
 
@@ -11,6 +16,21 @@ The core flow is:
 5. **Synthesize a verdict, confidence score, explanation, and reviewer note**
 6. **Persist article, claims, evaluations, and evidence hits** to PostgreSQL
 7. **Expose run history and source-bank views** through API routes and the demo UI
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Browser[Dashboard] -->|REST| API[FastAPI]
+    API -->|job state| Postgres[(PostgreSQL)]
+    API -->|enqueue| Redis[(Redis)]
+    Redis --> Worker1[Worker]
+    Redis --> WorkerN[Scaled workers]
+    Worker1 -->|results and status| Postgres
+    WorkerN -->|results and status| Postgres
+    Worker1 --> SourceBank[Curated source bank]
+    WorkerN --> SourceBank
+```
 
 ## Stack
 
@@ -170,14 +190,22 @@ curl -X POST "http://localhost:8000/verify"   -H "Content-Type: application/json
 ## Worker benchmark
 
 ```bash
-python scripts/benchmark_workers.py --jobs 80 --minimum-speedup 3.1
+python scripts/benchmark_workers.py --jobs 80
 ```
 
 The benchmark preloads the same queued workload while workers are paused, then compares how quickly one worker and four workers drain Redis. Job-submission time is excluded so the result isolates worker throughput rather than serial API latency. Queue records remain durable, while duplicate article-history writes are disabled for the measurement.
 
-It writes `benchmarks/latest.json`, which powers `GET /benchmark`. The script exits unsuccessfully when the measured result is below the requested threshold; it never substitutes a fixed resume number.
+It writes `benchmarks/latest.json`, which powers `GET /benchmark`. To enforce a target in CI or a controlled environment, add `--minimum-speedup 3.1`; the script will fail when the measured result is below that target. A threshold is an acceptance criterion, not a claimed result.
 
 Only report the measured speedup from your machine or CI run.
+
+## Current limitations
+
+- Evidence comes from a curated local source bank rather than live web retrieval.
+- Claim extraction, retrieval, and verdict calibration use deterministic heuristics rather than a trained fact-checking model.
+- A verdict summarizes evidence alignment; it is not a guarantee that a claim is true or false.
+- Authentication, authorization, and production abuse controls are outside the current local demo scope.
+- Benchmark results depend on host resources, Docker configuration, database load, and workload shape.
 
 ## Running tests
 
