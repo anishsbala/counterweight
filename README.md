@@ -5,8 +5,6 @@
 
 Counterweight is a Dockerized claim-verification platform built with **Python, FastAPI, PostgreSQL, Redis, and Docker**. It ingests article text, extracts checkable claims, queues verification jobs across worker processes, ranks evidence from a curated source bank, assigns verdicts, and stores the full run in Postgres.
 
-![Counterweight dashboard showing the verification form, source metrics, and queued run history](docs/assets/dashboard.png)
-
 The core flow is:
 
 1. **Parse article text** into clean sentences
